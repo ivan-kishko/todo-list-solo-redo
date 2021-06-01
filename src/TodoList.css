@@ -1,0 +1,22 @@
+.filterButton {
+    background: lightgrey;
+    outline: none;
+}
+
+.filterButtonActive {
+    background: deepskyblue;
+    outline: none;
+}
+
+.error {
+    border: 2px solid red;
+    outline: none;
+}
+
+.error-message {
+    color: red;
+}
+
+.isDone {
+    opacity: 0.6;
+}
