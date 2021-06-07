@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/todo-list-solo-redo/static/css/main.201da3f6.chunk.css",
+    "main.js": "/todo-list-solo-redo/static/js/main.ec7ee659.chunk.js",
+    "main.js.map": "/todo-list-solo-redo/static/js/main.ec7ee659.chunk.js.map",
+    "runtime-main.js": "/todo-list-solo-redo/static/js/runtime-main.7d20de2e.js",
+    "runtime-main.js.map": "/todo-list-solo-redo/static/js/runtime-main.7d20de2e.js.map",
+    "static/js/2.180324d9.chunk.js": "/todo-list-solo-redo/static/js/2.180324d9.chunk.js",
+    "static/js/2.180324d9.chunk.js.map": "/todo-list-solo-redo/static/js/2.180324d9.chunk.js.map",
+    "index.html": "/todo-list-solo-redo/index.html",
+    "precache-manifest.08718d4decc5957db7265d0dc29542c2.js": "/todo-list-solo-redo/precache-manifest.08718d4decc5957db7265d0dc29542c2.js",
+    "service-worker.js": "/todo-list-solo-redo/service-worker.js",
+    "static/css/main.201da3f6.chunk.css.map": "/todo-list-solo-redo/static/css/main.201da3f6.chunk.css.map",
+    "static/js/2.180324d9.chunk.js.LICENSE.txt": "/todo-list-solo-redo/static/js/2.180324d9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7d20de2e.js",
+    "static/js/2.180324d9.chunk.js",
+    "static/css/main.201da3f6.chunk.css",
+    "static/js/main.ec7ee659.chunk.js"
+  ]
+}
