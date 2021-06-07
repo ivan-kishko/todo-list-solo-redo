@@ -3,6 +3,7 @@ import classes from './EditableSpan.module.css'
 
 type EditableSpanType = {
     title: string
+    changeTitle: (newTitle: string) => void
 }
 
 export function EditableSpan(props: EditableSpanType) {
@@ -25,7 +26,7 @@ export function EditableSpan(props: EditableSpanType) {
     const onBlurOffEditMode = () => {
         if(taskTitle !== '') {
             setEditMode(false)
-            setError(false)
+            props.changeTitle(taskTitle)
         } else {
             setError(true)
         }
@@ -35,7 +36,7 @@ export function EditableSpan(props: EditableSpanType) {
         if(taskTitle !== '') {
             if (e.key === "Enter") {
                 setEditMode(false)
-                setError(false)
+                props.changeTitle(taskTitle)
             }
         } else {
             setError(true)
