@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './EditableSpan.module.css'
+import {TextField} from "@material-ui/core";
 
 type EditableSpanType = {
     title: string
@@ -24,7 +25,7 @@ export function EditableSpan(props: EditableSpanType) {
     }
 
     const onBlurOffEditMode = () => {
-        if(taskTitle !== '') {
+        if (taskTitle !== '') {
             setEditMode(false)
             props.changeTitle(taskTitle)
         } else {
@@ -33,7 +34,7 @@ export function EditableSpan(props: EditableSpanType) {
     }
 
     const onEnterPressOffEditMode = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(taskTitle !== '') {
+        if (taskTitle !== '') {
             if (e.key === "Enter") {
                 setEditMode(false)
                 props.changeTitle(taskTitle)
@@ -46,7 +47,7 @@ export function EditableSpan(props: EditableSpanType) {
     //conditional rendering of span or input field
     return (
         editMode
-            ? <input
+            ? <TextField
                 className={`${classes.inputField} ${error ? classes.error : ''}`}
                 autoFocus
                 value={taskTitle}
@@ -54,7 +55,7 @@ export function EditableSpan(props: EditableSpanType) {
                 onKeyPress={onEnterPressOffEditMode}
                 onChange={onChangeTaskTitle}
                 placeholder={error ? 'please enter title' : ''}
-            />
+                variant={"outlined"}/>
             : <span onDoubleClick={onDoubleClickOnEditMode}>{taskTitle}</span>
     )
 }

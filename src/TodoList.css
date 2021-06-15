@@ -1,11 +1,9 @@
 .filterButton {
     background: lightgrey;
-    outline: none;
 }
 
 .filterButtonActive {
     background: deepskyblue;
-    outline: none;
 }
 
 .error {
