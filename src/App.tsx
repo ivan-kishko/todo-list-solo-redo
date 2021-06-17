@@ -58,6 +58,14 @@ function App() {
         }
     )
 
+    //adding TodoList
+    const addTodoList = (todoListTitle: string) => {
+        const newTodoListId = v1()
+        const newTodoList: TodoListType = {id: newTodoListId, title: todoListTitle, filter: 'all'}
+        setTodoLists([...todoLists, newTodoList])
+        setTasks({...tasks, [newTodoListId]: []})
+    }
+
     //removing TodoList
     const deleteTodoList = (todoListId: string) => {
         let newTodoLists = todoLists.filter(tl => tl.id !== todoListId)
@@ -66,12 +74,19 @@ function App() {
         setTasks({...tasks})
     }
 
-    //adding TodoList
-    const addTodoList = (todoListTitle: string) => {
-        const newTodoListId = v1()
-        const newTodoList: TodoListType = {id: newTodoListId, title: todoListTitle, filter: 'all'}
-        setTodoLists([...todoLists, newTodoList])
-        setTasks({...tasks, [newTodoListId]: []})
+    //change filter
+    const changeFilter = (filterValue: FilterValueType, todoListId: string) => {
+        let todoList = todoLists.find(tl => tl.id === todoListId)
+        if (todoList) {
+            todoList.filter = filterValue
+            setTodoLists([...todoLists])
+        }
+    }
+
+    //change todolist title
+    const changeTodoListTitle = (todoListId: string, newTitle: string) => {
+        const updatedTodoLists = todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl)
+        setTodoLists(updatedTodoLists)
     }
 
     //deleting task
@@ -101,15 +116,6 @@ function App() {
         setTasks({...tasks, [todoListId]: updatedTasks})
     }
 
-    //change filter
-    const changeFilter = (filterValue: FilterValueType, todoListId: string) => {
-        let todoList = todoLists.find(tl => tl.id === todoListId)
-        if (todoList) {
-            todoList.filter = filterValue
-            setTodoLists([...todoLists])
-        }
-    }
-
     const todoListJSXElements = todoLists.map(tl => {
             let allTodoListTasks = tasks[tl.id]
             let filteredTasks = allTodoListTasks;
@@ -134,6 +140,7 @@ function App() {
                             changeTaskStatus={changeTaskStatus}
                             changeTaskTitle={changeTaskTitle}
                             addTask={addTask}
+                            changeTodoListTitle={changeTodoListTitle}
                         />
                     </Paper>
                 </Grid>

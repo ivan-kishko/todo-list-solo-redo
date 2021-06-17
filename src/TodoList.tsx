@@ -17,6 +17,7 @@ type TodoListPropsType = {
     changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     changeTaskTitle: (todoListId: string, taskId: string, newTitle: string) => void
     addTask: (taskTitle: string, todoListId: string) => void
+    changeTodoListTitle: (todoListId: string, newTitle: string) => void
 }
 
 export function TodoList(props: TodoListPropsType) {
@@ -54,6 +55,13 @@ export function TodoList(props: TodoListPropsType) {
         props.deleteTodoList(props.id)
     }
 
+    //changeTodoListTitle
+    const changeTodoListTitle = (title: string) => {
+        props.changeTodoListTitle(props.id, title)
+    }
+
+
+
     //filter callbacks
     const onChangeFilterAll = () => {
         props.changeFilter('all', props.id)
@@ -74,7 +82,7 @@ export function TodoList(props: TodoListPropsType) {
 
     return (
         <div>
-            <h3>{props.todoListTitle}
+            <h3><EditableSpan title={props.todoListTitle} changeTitle={changeTodoListTitle}/>
                 <IconButton onClick={deleteTodoList}>
                     <Delete />
                 </IconButton>
@@ -84,9 +92,9 @@ export function TodoList(props: TodoListPropsType) {
                 {tasksElements}
             </div>
             <div>
-                <Button color="primary" variant={props.filter === "all" ? "contained" : undefined} onClick={onChangeFilterAll}>All</Button>
-                <Button color="primary" variant={props.filter === "active" ? "contained" : undefined} onClick={onChangeFilterAActive}>Active</Button>
-                <Button color="primary" variant={props.filter === "completed" ? "contained" : undefined} onClick={onChangeFilterCompleted}>Completed</Button>
+                <Button color="primary" variant={props.filter === "all" ? "contained" : undefined} style={{marginTop: '3px'}} onClick={onChangeFilterAll}>All</Button>
+                <Button color="primary" variant={props.filter === "active" ? "contained" : undefined} style={{marginTop: '3px'}} onClick={onChangeFilterAActive}>Active</Button>
+                <Button color="primary" variant={props.filter === "completed" ? "contained" : undefined} style={{marginTop: '3px'}} onClick={onChangeFilterCompleted}>Completed</Button>
             </div>
         </div>
     )

@@ -55,7 +55,9 @@ export function EditableSpan(props: EditableSpanType) {
                 onKeyPress={onEnterPressOffEditMode}
                 onChange={onChangeTaskTitle}
                 placeholder={error ? 'please enter title' : ''}
-                variant={"outlined"}/>
+                variant={"outlined"}
+                size={"small"}
+                error={error}/>
             : <span onDoubleClick={onDoubleClickOnEditMode}>{taskTitle}</span>
     )
 }
