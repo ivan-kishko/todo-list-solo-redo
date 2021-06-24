@@ -65,7 +65,6 @@ function App() {
         setTodoLists([...todoLists, newTodoList])
         setTasks({...tasks, [newTodoListId]: []})
     }
-
     //removing TodoList
     const deleteTodoList = (todoListId: string) => {
         let newTodoLists = todoLists.filter(tl => tl.id !== todoListId)
@@ -73,7 +72,6 @@ function App() {
         delete tasks[todoListId]
         setTasks({...tasks})
     }
-
     //change filter
     const changeFilter = (filterValue: FilterValueType, todoListId: string) => {
         let todoList = todoLists.find(tl => tl.id === todoListId)
@@ -82,7 +80,6 @@ function App() {
             setTodoLists([...todoLists])
         }
     }
-
     //change todolist title
     const changeTodoListTitle = (todoListId: string, newTitle: string) => {
         const updatedTodoLists = todoLists.map(tl => tl.id === todoListId ? {...tl, title: newTitle} : tl)
@@ -90,12 +87,11 @@ function App() {
     }
 
     //deleting task
-    const deleteTask = (id: string, todoListId: string) => {
+    const deleteTask = (taskId: string, todoListId: string) => {
         let todoListTasks = tasks[todoListId]
-        let newTasks = todoListTasks.filter(t => t.id !== id)
+        let newTasks = todoListTasks.filter(t => t.id !== taskId)
         setTasks({...tasks, [todoListId]: newTasks})
     }
-
     //adding a task
     const addTask = (taskTitle: string, todoListId: string) => {
         if (taskTitle.trim() !== '') {
@@ -103,13 +99,11 @@ function App() {
             setTasks({...tasks, [todoListId]: newTasks})
         }
     }
-
     //change task status
     const changeTaskStatus = (taskId: string, isDone: boolean, todoListId: string) => {
         const updatedTasks = tasks[todoListId].map(t => t.id === taskId ? {...t, isDone} : t)
         setTasks({...tasks, [todoListId]: updatedTasks})
     }
-
     //task title change
     const changeTaskTitle = (todoListId: string, taskId: string, newTitle: string) => {
         const updatedTasks = tasks[todoListId].map(t => t.id === taskId ? {...t, title: newTitle} : t)
