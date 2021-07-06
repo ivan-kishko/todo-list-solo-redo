@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {Button, IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
 type AddItemFormType = {
@@ -12,6 +12,9 @@ export function AddItemForm(props: AddItemFormType) {
     //local error state
     const [error, setError] = useState<string | null>(null)
 
+    const onBlurErrorFalse = () => {
+        setError(null)
+    }
     //add task or todolist based on callback
     const addItem = () => {
         if (inputValue.trim() !== '') {
@@ -40,6 +43,7 @@ export function AddItemForm(props: AddItemFormType) {
                 error={!!error}
                 value={inputValue}
                 onChange={onChangeTitle}
+                onBlur={onBlurErrorFalse}
                 onKeyPress={onEnterPressAddTask}
                 variant={"outlined"}
                 label={"Title"}
