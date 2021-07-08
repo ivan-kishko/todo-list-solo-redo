@@ -6,14 +6,14 @@ type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: AddItemFormType) {
+export const AddItemForm = React.memo(function AddItemForm(props: AddItemFormType) {
     //local input state
     const [inputValue, setInputValue] = useState('')
     //local error state
     const [error, setError] = useState<string | null>(null)
 
     const onBlurErrorFalse = () => {
-        setError(null)
+        if(error !== null) setError(null)
     }
     //add task or todolist based on callback
     const addItem = () => {
@@ -40,6 +40,7 @@ export function AddItemForm(props: AddItemFormType) {
     return (
         <div>
             <TextField
+                size={"small"}
                 error={!!error}
                 value={inputValue}
                 onChange={onChangeTitle}
@@ -54,4 +55,4 @@ export function AddItemForm(props: AddItemFormType) {
             </IconButton>
         </div>
     )
-}
+})

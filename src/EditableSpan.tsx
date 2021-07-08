@@ -7,11 +7,11 @@ type EditableSpanType = {
     changeTitle: (newTitle: string) => void
 }
 
-export function EditableSpan(props: EditableSpanType) {
+export const EditableSpan = React.memo(function EditableSpanComponent({title, changeTitle}: EditableSpanType) {
     //editMode for span local state
     const [editMode, setEditMode] = useState(false)
     //title local state
-    const [taskTitle, setTaskTitle] = useState(props.title)
+    const [taskTitle, setTaskTitle] = useState(title)
     //local error state for input
     const [error, setError] = useState(false)
 
@@ -27,7 +27,7 @@ export function EditableSpan(props: EditableSpanType) {
     const onBlurOffEditMode = () => {
         if (taskTitle !== '') {
             setEditMode(false)
-            props.changeTitle(taskTitle)
+            changeTitle(taskTitle)
         } else {
             setError(true)
         }
@@ -37,7 +37,7 @@ export function EditableSpan(props: EditableSpanType) {
         if (taskTitle !== '') {
             if (e.key === "Enter") {
                 setEditMode(false)
-                props.changeTitle(taskTitle)
+                changeTitle(taskTitle)
             }
         } else {
             setError(true)
@@ -60,4 +60,4 @@ export function EditableSpan(props: EditableSpanType) {
                 error={error}/>
             : <span onDoubleClick={onDoubleClickOnEditMode}>{taskTitle}</span>
     )
-}
+})

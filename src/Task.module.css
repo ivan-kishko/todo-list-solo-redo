@@ -1,0 +1,7 @@
+.isDone {
+    opacity: 0.6;
+}
+
+.liElement {
+    list-style-type: none;
+}
