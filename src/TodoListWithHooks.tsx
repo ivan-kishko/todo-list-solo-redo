@@ -21,11 +21,13 @@ type TodoListPropsType = {
     filter: FilterValueType
 }
 
-export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent({
-                                                                                    id,
-                                                                                    todoListTitle,
-                                                                                    filter
-                                                                                }: TodoListPropsType) {
+export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(props: TodoListPropsType) {
+    const {
+        id,
+        todoListTitle,
+        filter
+    } = props;
+
     console.log('TLwithHooks')
     //dispatch hook
     const dispatch = useDispatch<DispatchType>()
@@ -56,7 +58,7 @@ export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(
     //changeTodoListTitle
     const changeTodoListTitle = useCallback((title: string) => {
         dispatch(changeTodoListTitleAC(id, title))
-    },[dispatch, id])
+    }, [dispatch, id])
 
     //filter callbacks
     const onChangeFilterAll = () => {
