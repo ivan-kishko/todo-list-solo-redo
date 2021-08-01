@@ -4,33 +4,32 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
-import {DispatchType} from "./state/store";
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC} from "./state/tasks-reducer";
+import {changeTaskStatusTC, changeTaskTitleTC, deleteTaskTC} from "./state/tasks-reducer";
+import {TaskStatuses} from "./api/api";
 
 type TaskPropsType = {
     id: string
     title: string
-    isDone: boolean
+    status: TaskStatuses
     todoListId: string
 }
 
-export const Task = React.memo(function TaskComponent({id, title, isDone, todoListId}: TaskPropsType) {
-    console.log('task')
-    const dispatch = useDispatch<DispatchType>()
+export const Task = React.memo(function TaskComponent({id, title, status, todoListId}: TaskPropsType) {
+    const dispatch = useDispatch()
 
     const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(id, e.currentTarget.checked, todoListId))
+        dispatch(changeTaskStatusTC(id, todoListId, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New))
     }
     const onClickDeleteTask = () => {
-        dispatch(deleteTaskAC(id, todoListId))
+        dispatch(deleteTaskTC(id, todoListId))
     }
     const changeTaskTitle = useCallback((newTitle: string) => {
-        dispatch(changeTaskTitleAC(todoListId, id, newTitle))
+        dispatch(changeTaskTitleTC(id, todoListId, newTitle))
     }, [dispatch, todoListId, id])
 
     return (
-        <li key={id} className={`${classes.liElement} ${isDone ? classes.isDoneClassName : ''}`}>
-            <Checkbox checked={isDone} onChange={onChangeTaskStatus} color={"primary"}/>
+        <li key={id} className={`${classes.liElement} ${status === 2 ? classes.isDoneClassName : ''}`}>
+            <Checkbox checked={status === 2} onChange={onChangeTaskStatus} color={"primary"}/>
             <EditableSpan title={title} changeTitle={changeTaskTitle}/>
             <IconButton onClick={onClickDeleteTask}>
                 <Delete />

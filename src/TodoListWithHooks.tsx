@@ -1,19 +1,20 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './TodoList.css'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, DispatchType} from "./state/store";
-import {addTaskAC, TaskType} from "./state/tasks-reducer";
+import {AppRootStateType} from "./state/store";
+import {addTaskTC, fetchTasksTC} from "./state/tasks-reducer";
 import {
     changeTodoListFilterAC,
-    changeTodoListTitleAC,
-    deleteTodoListAC,
-    FilterValueType
+    changeTodoListTitleTC,
+    deleteTodoListTC,
+    FilterValueType,
 } from "./state/todolist-reducer";
 import {Task} from "./Task";
+import {TaskType} from "./api/api";
 
 type TodoListPropsType = {
     id: string
@@ -22,45 +23,39 @@ type TodoListPropsType = {
 }
 
 export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(props: TodoListPropsType) {
-    const {
-        id,
-        todoListTitle,
-        filter
-    } = props;
+    const {id, todoListTitle, filter} = props;
 
-    console.log('TLwithHooks')
-    //dispatch hook
-    const dispatch = useDispatch<DispatchType>()
-    //selector for tasks
+    const dispatch = useDispatch()
+    //fetching tasks
+    useEffect(() => {
+        dispatch(fetchTasksTC(id))
+    }, [dispatch, id])
+
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => {
         switch (filter) {
             case "active":
-                return state.tasks[id].filter(t => !t.isDone)
+                return state.tasks[id].filter(t => t.status === 0)
             case "completed":
-                return state.tasks[id].filter(t => t.isDone)
+                return state.tasks[id].filter(t => t.status === 2)
             default:
                 return state.tasks[id]
         }
     })
 
     let tasksElements = tasks.map(t => {
-        return <Task key={t.id + id} id={t.id} isDone={t.isDone} title={t.title} todoListId={id}/>
+        return <Task key={t.id + id} id={t.id} status={t.status} title={t.title} todoListId={id}/>
     })
 
-    //add task
-    const addTask = (title: string) => {
-        dispatch(addTaskAC(title, id))
-    }
     //deleting todolist entity
     const deleteTodoList = () => {
-        dispatch(deleteTodoListAC(id))
+        dispatch(deleteTodoListTC(id))
     }
     //changeTodoListTitle
     const changeTodoListTitle = useCallback((title: string) => {
-        dispatch(changeTodoListTitleAC(id, title))
+        dispatch(changeTodoListTitleTC(id, title))
     }, [dispatch, id])
 
-    //filter callbacks
+    //todoList filter callbacks
     const onChangeFilterAll = () => {
         dispatch(changeTodoListFilterAC('all', id))
     }
@@ -69,6 +64,11 @@ export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(
     }
     const onChangeFilterCompleted = () => {
         dispatch(changeTodoListFilterAC('completed', id))
+    }
+
+    //add task
+    const addTask = (title: string) => {
+        dispatch(addTaskTC(title, id))
     }
 
     // variants for buttons based on filter value

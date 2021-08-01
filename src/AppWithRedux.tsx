@@ -1,20 +1,26 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, IconButton, Typography, Toolbar, Container, Grid, Paper} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addTodoListAC, TodoListType,} from "./state/todolist-reducer";
+import {addTodoListTC, fetchTodoListsTC, TodoListEntityType,} from "./state/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, DispatchType} from "./state/store";
+import {AppRootStateType} from "./state/store";
 import {TodoListWithHooks} from "./TodoListWithHooks";
 
 const AppWithRedux = React.memo(function AppWithReduxComponent() {
-    console.log('AppRedux')
-    const dispatch = useDispatch<DispatchType>()
-    const todoLists = useSelector<AppRootStateType, TodoListType[]>(state => state.todoLists)
+    const dispatch = useDispatch()
+    //fetching todoLists
+    useEffect(() => {
+        dispatch(fetchTodoListsTC())
+    }, [dispatch])
+
+    const todoLists = useSelector<AppRootStateType, TodoListEntityType[]>(state => {
+        return state.todoLists
+    })
 
     const addTodoList = useCallback((todoListTitle: string) => {
-        dispatch(addTodoListAC(todoListTitle))
+        dispatch(addTodoListTC(todoListTitle))
     }, [dispatch])
 
     const todoListJSXElements = todoLists.map(tl => {
