@@ -1,13 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './EditableSpan.module.css'
-import {TextField} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
 type EditableSpanType = {
     title: string
     changeTitle: (newTitle: string) => void
+    disabled: boolean
 }
 
-export const EditableSpan = React.memo(function EditableSpanComponent({title, changeTitle}: EditableSpanType) {
+export const EditableSpan = React.memo(function EditableSpanComponent({title, changeTitle, disabled}: EditableSpanType) {
     //editMode for span local state
     const [editMode, setEditMode] = useState(false)
     //title local state
@@ -21,7 +22,12 @@ export const EditableSpan = React.memo(function EditableSpanComponent({title, ch
     }
 
     const onDoubleClickOnEditMode = () => {
-        setEditMode(true)
+        if (!disabled) {
+            if (taskTitle !== title) {
+                setTaskTitle(title)
+            }
+            setEditMode(true)
+        }
     }
 
     const onBlurOffEditMode = () => {
@@ -58,6 +64,6 @@ export const EditableSpan = React.memo(function EditableSpanComponent({title, ch
                 variant={"outlined"}
                 size={"small"}
                 error={error}/>
-            : <span onDoubleClick={onDoubleClickOnEditMode}>{taskTitle}</span>
+            : <span onDoubleClick={onDoubleClickOnEditMode}>{title}</span>
     )
 })

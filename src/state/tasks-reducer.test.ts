@@ -1,6 +1,6 @@
 import React from 'react'
 // import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, tasksReducer} from "./tasks-reducer";
-// import {TasksStateType, TodoListType} from "../AppWithRedux";
+// import {TasksStateType, TodoListType} from "../App";
 // import {addTodoListAC, deleteTodoListAC, todolistReducer} from "./todolist-reducer";
 //
 // let startState: TasksStateType;

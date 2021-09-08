@@ -1,31 +1,34 @@
 import React, {useCallback, useEffect} from 'react';
 import './TodoList.css'
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
-import {Button, IconButton} from "@material-ui/core";
+import {AddItemForm} from "../addItemForm/AddItemForm";
+import {EditableSpan} from "../editableSpan/EditableSpan";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {addTaskTC, fetchTasksTC} from "./state/tasks-reducer";
+import {AppRootStateType} from "../../state/store";
+import {addTaskTC, fetchTasksTC} from "../../state/tasks-reducer";
 import {
     changeTodoListFilterAC,
     changeTodoListTitleTC,
     deleteTodoListTC,
     FilterValueType,
-} from "./state/todolist-reducer";
-import {Task} from "./Task";
-import {TaskType} from "./api/api";
+} from "../../state/todolist-reducer";
+import {Task} from "../taskComponent/Task";
+import {TaskType} from "../../api/api";
+import {RequestStatusType} from "../../state/app-reducer";
 
 type TodoListPropsType = {
     id: string
     todoListTitle: string
     filter: FilterValueType
+    todoListEntityStatus: RequestStatusType
 }
 
-export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(props: TodoListPropsType) {
-    const {id, todoListTitle, filter} = props;
-
+export const TodoList = React.memo(function TodoListWithHooksComponent(props: TodoListPropsType) {
+    const {id, todoListTitle, filter, todoListEntityStatus} = props;
     const dispatch = useDispatch()
+
     //fetching tasks
     useEffect(() => {
         dispatch(fetchTasksTC(id))
@@ -43,7 +46,7 @@ export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(
     })
 
     let tasksElements = tasks.map(t => {
-        return <Task key={t.id + id} id={t.id} status={t.status} title={t.title} todoListId={id}/>
+        return <Task key={t.id + id} id={t.id} status={t.status} title={t.title} todoListId={id} todoListEntityStatus={todoListEntityStatus === 'loading'}/>
     })
 
     //deleting todolist entity
@@ -79,12 +82,12 @@ export const TodoListWithHooks = React.memo(function TodoListWithHooksComponent(
     return (
         <div>
             <h3>
-                <EditableSpan title={todoListTitle} changeTitle={changeTodoListTitle}/>
-                <IconButton onClick={deleteTodoList}>
+                <EditableSpan title={todoListTitle} changeTitle={changeTodoListTitle} disabled={todoListEntityStatus === 'loading'}/>
+                <IconButton onClick={deleteTodoList} disabled={todoListEntityStatus === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} disabled={todoListEntityStatus === 'loading'}/>
             <div>
                 {tasksElements}
             </div>
