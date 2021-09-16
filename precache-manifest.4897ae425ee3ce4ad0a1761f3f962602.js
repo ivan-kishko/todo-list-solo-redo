@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "164805f1427f753fd8480edc26e84740",
+    "revision": "995a845b30b493284d9cbae2ab901e00",
     "url": "/todo-list-solo-redo/index.html"
   },
   {
-    "revision": "ce0486fe62bd8a48776b",
+    "revision": "3b20bbbc26a1cc81a580",
     "url": "/todo-list-solo-redo/static/css/main.b9bff6bc.chunk.css"
   },
   {
-    "revision": "0b19e9cc638be8f9f1ed",
-    "url": "/todo-list-solo-redo/static/js/2.16296e56.chunk.js"
+    "revision": "bbac9b66ddc86cb9c5ea",
+    "url": "/todo-list-solo-redo/static/js/2.0a41f195.chunk.js"
   },
   {
     "revision": "89a1b2dcd30c03705b2bceeb141b76b6",
-    "url": "/todo-list-solo-redo/static/js/2.16296e56.chunk.js.LICENSE.txt"
+    "url": "/todo-list-solo-redo/static/js/2.0a41f195.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ce0486fe62bd8a48776b",
-    "url": "/todo-list-solo-redo/static/js/main.fa1792dd.chunk.js"
+    "revision": "3b20bbbc26a1cc81a580",
+    "url": "/todo-list-solo-redo/static/js/main.c6f4da01.chunk.js"
   },
   {
     "revision": "39e6ab439fb25ca6244c",
