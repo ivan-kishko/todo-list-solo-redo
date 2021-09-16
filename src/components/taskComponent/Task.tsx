@@ -7,7 +7,6 @@ import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import {changeTaskStatusTC, changeTaskTitleTC, deleteTaskTC} from "../../state/tasks-reducer";
 import {TaskStatuses} from "../../api/api";
-import {RequestStatusType} from "../../state/app-reducer";
 
 type TaskPropsType = {
     id: string

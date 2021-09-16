@@ -1,25 +1,24 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "./components/addItemForm/AddItemForm";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import {Menu} from "@material-ui/icons";
-import {addTodoListTC, fetchTodoListsTC, TodoListEntityType} from "./state/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {TodoList} from "./components/todolistComponent/TodoList";
-import {RequestStatusType} from "./state/app-reducer";
+import {initializeAppTC, RequestStatusType} from "./state/app-reducer";
 import {ErrorSnackbar} from "./components/errorSnackbar/ErrorSnackbar";
 import {makeStyles} from "@material-ui/core";
+import {Login} from "./components/login/Login";
+import {TodoListsContainer} from "./components/todolists-container/TodoListsContainer";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {logoutTC} from "./state/auth-reducer";
 
+//this is for loading screen
 const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
@@ -30,33 +29,24 @@ const useStyles = makeStyles((theme) => ({
 const App = React.memo(function AppWithReduxComponent() {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const todoLists = useSelector<AppRootStateType, TodoListEntityType[]>(state => state.todoLists)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const isInitialized = useSelector<AppRootStateType, boolean>( state => state.app.isInitialized)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>( state => state.auth.isLoggedIn)
 
-    //fetching todoLists
+    const logout = useCallback(() => {
+        dispatch(logoutTC())
+    }, [dispatch])
+
     useEffect(() => {
-        dispatch(fetchTodoListsTC())
+        dispatch(initializeAppTC())
     }, [dispatch])
 
-    const addTodoList = useCallback((todoListTitle: string) => {
-        dispatch(addTodoListTC(todoListTitle))
-    }, [dispatch])
-
-    const todoListJSXElements = todoLists.map(tl => {
-            return (
-                <Grid key={tl.id} item style={{wordBreak: 'break-word'}}>
-                    <Paper style={{padding: '10px'}}>
-                        <TodoList
-                            id={tl.id}
-                            todoListTitle={tl.title}
-                            filter={tl.filter}
-                            todoListEntityStatus={tl.todoListEntityStatus}
-                        />
-                    </Paper>
-                </Grid>
-            )
-        }
-    )
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className="App">
@@ -70,17 +60,20 @@ const App = React.memo(function AppWithReduxComponent() {
                     <Typography variant="h6">
                         TodoList
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn
+                        ? <Button color="inherit" onClick={logout}>Logout</Button>
+                        : <Button style={{color: "white"}} disabled={true}>Login</Button>
+                    }
                 </Toolbar>
-                {/*{status === 'loading' && <LinearProgress/>}*/}
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: '20px', justifyContent: 'center'}}>
-                    <AddItemForm addItem={addTodoList}/>
-                </Grid>
-                <Grid container spacing={3} style={{justifyContent: 'center'}}>
-                    {todoListJSXElements}
-                </Grid>
+                <Switch>
+                    <Route exact path={'/todo-list-solo-redo'} render={() => <TodoListsContainer/>}/>
+                    <Route path={'/login'} render={() => <Login/>}/>
+                    <Route path={'/404'} render={() => <h1 style={{textAlign: "center"}}>404: Page not found</h1>}/>
+                    <Redirect exact from={'/'} to={'/todo-list-solo-redo'}/>
+                    <Redirect from={'*'} to={'/404'}/>
+                </Switch>
             </Container>
         </div>
     );

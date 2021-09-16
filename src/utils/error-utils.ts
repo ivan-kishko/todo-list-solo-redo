@@ -5,7 +5,7 @@ import {ChangeTodoListEntityStatusAT} from "../state/action-types";
 import {Dispatch} from "redux";
 import {ResponseType} from "../api/api";
 
-
+//errors for whole app (backdrop)
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if (data.messages.length) {
         dispatch(setAppErrorAC(data.messages[0]))
@@ -15,6 +15,12 @@ export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUt
     dispatch(setAppStatusAC('failed'))
 }
 
+export const handleServerAppNetworkError = (message: string, dispatch: ErrorUtilsDispatchType) => {
+    dispatch(setAppErrorAC(message))
+    dispatch(setAppStatusAC('failed'))
+}
+
+//errors for todoListEntity
 export const handleServerTodoEntityError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType, todoId: string) => {
     if (data.messages.length) {
         dispatch(setAppErrorAC(data.messages[0]))
@@ -22,11 +28,6 @@ export const handleServerTodoEntityError = <T>(data: ResponseType<T>, dispatch: 
         dispatch(setAppErrorAC('unexpected error occurred'))
     }
     dispatch(changeTodoListEntityStatusAC(todoId, 'failed'))
-}
-
-export const handleServerAppNetworkError = (message: string, dispatch: ErrorUtilsDispatchType) => {
-    dispatch(setAppErrorAC(message))
-    dispatch(setAppStatusAC('failed'))
 }
 
 export const handleServerTodoEntityNetworkError = (message: string, dispatch: ErrorUtilsDispatchType, todoId: string) => {
