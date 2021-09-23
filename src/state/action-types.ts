@@ -35,7 +35,7 @@ export type SetIsLoggedInAT = ReturnType<typeof setIsLoggedInAC>
 
 //union type
 export type UnionActionType =
-    AddTodoListAT | DeleteTodoListAT | ChangeTodoListFilterAT | ChangeTodoListTitleAT | FetchTodoListsAT | ChangeTodoListEntityStatusAT | ClearDataOnLogoutAT//todos
+    AddTodoListAT | DeleteTodoListAT | ChangeTodoListFilterAT | ChangeTodoListTitleAT | FetchTodoListsAT | ChangeTodoListEntityStatusAT | ClearDataOnLogoutAT //todos
     | FetchTasksAT | AddTaskAT | DeleteTaskAT | ChangeTaskStatusAT | ChangeTaskTitleAT //tasks
     | SetAppStatusAT | SetAppErrorAT | SetAppInitAT //app
     | SetIsLoggedInAT //auth

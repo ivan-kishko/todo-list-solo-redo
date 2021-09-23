@@ -3,10 +3,10 @@ import {Dispatch} from "redux";
 import {handleServerAppNetworkError} from "../utils/error-utils";
 import {todoListsAPI} from "../api/api";
 import {setIsLoggedInAC} from "./auth-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 //local types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-type InitStateType = typeof initState
 
 //init state
 const initState = {
@@ -15,49 +15,43 @@ const initState = {
     isInitialized: false
 }
 
-//reducer
-export const appReducer = (state: InitStateType = initState, action: UnionActionType) => {
-    switch (action.type) {
-        case 'app/SET-STATUS': {
-            return {...state, status: action.status}
-        }
-        case 'app/SET-ERROR': {
-            return {...state, error: action.error}
-        }
-        case "app/SET-APP-INIT": {
-            return {...state, isInitialized: action.isInitialized}
-        }
-        default: {
-            return state
+//slice redux toolkit
+const appSlice = createSlice({
+    name: 'app',
+    initialState: initState,
+    reducers: {
+        setAppStatusAC(state, action: PayloadAction<{status: RequestStatusType}>) {
+            state.status = action.payload.status
+        },
+        setAppErrorAC(state, action: PayloadAction<{error: string | null}>) {
+            state.error = action.payload.error
+        },
+        setAppInitAC(state, action: PayloadAction<{isInitialized: boolean}>) {
+            state.isInitialized = action.payload.isInitialized
         }
     }
-}
+})
+
+//reducer
+export const appReducer = appSlice.reducer
 
 //actions
-export const setAppStatusAC = (status: RequestStatusType) => {
-    return {type: 'app/SET-STATUS', status} as const
-}
-export const setAppErrorAC = (error: string | null) => {
-    return {type: 'app/SET-ERROR', error} as const
-}
-export const setAppInitAC = (isInitialized: boolean) => {
-    return {type: 'app/SET-APP-INIT', isInitialized} as const
-}
+export const {setAppStatusAC, setAppErrorAC, setAppInitAC} = appSlice.actions
 
 //thunks
 export const initializeAppTC = () => async (dispatch: Dispatch<UnionActionType>) => {
     try {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
         const res = await todoListsAPI.me()
         if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setIsLoggedInAC({isLoggedIn: true}))
+            dispatch(setAppStatusAC({status: 'succeeded'}))
         } else {
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppStatusAC({status: 'succeeded'}))
         }
-    } catch (err) {
+    } catch (err: any) {
         handleServerAppNetworkError(err.message, dispatch)
     } finally {
-        dispatch(setAppInitAC(true))
+        dispatch(setAppInitAC({isInitialized: true}))
     }
 }

@@ -8,31 +8,31 @@ import {ResponseType} from "../api/api";
 //errors for whole app (backdrop)
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if (data.messages.length) {
-        dispatch(setAppErrorAC(data.messages[0]))
+        dispatch(setAppErrorAC({error: data.messages[0]}))
     } else {
-        dispatch(setAppErrorAC('unexpected error occurred'))
+        dispatch(setAppErrorAC({error: 'unexpected error occurred'}))
     }
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppStatusAC({status: 'failed'}))
 }
 
 export const handleServerAppNetworkError = (message: string, dispatch: ErrorUtilsDispatchType) => {
-    dispatch(setAppErrorAC(message))
-    dispatch(setAppStatusAC('failed'))
+    dispatch(setAppErrorAC({error: message}))
+    dispatch(setAppStatusAC({status: 'failed'}))
 }
 
 //errors for todoListEntity
 export const handleServerTodoEntityError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType, todoId: string) => {
     if (data.messages.length) {
-        dispatch(setAppErrorAC(data.messages[0]))
+        dispatch(setAppErrorAC({error: data.messages[0]}))
     } else {
-        dispatch(setAppErrorAC('unexpected error occurred'))
+        dispatch(setAppErrorAC({error: 'unexpected error occurred'}))
     }
-    dispatch(changeTodoListEntityStatusAC(todoId, 'failed'))
+    dispatch(changeTodoListEntityStatusAC({todoId, todoListEntityStatus: 'failed'}))
 }
 
 export const handleServerTodoEntityNetworkError = (message: string, dispatch: ErrorUtilsDispatchType, todoId: string) => {
-    dispatch(setAppErrorAC(message))
-    dispatch(changeTodoListEntityStatusAC(todoId, 'failed'))
+    dispatch(setAppErrorAC({error: message}))
+    dispatch(changeTodoListEntityStatusAC({todoId, todoListEntityStatus: 'failed'}))
 }
 
 type ErrorUtilsDispatchType = Dispatch<SetAppStatusAT | SetAppErrorAT | ChangeTodoListEntityStatusAT>

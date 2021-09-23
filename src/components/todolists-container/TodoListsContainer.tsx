@@ -10,7 +10,6 @@ import {TodoList} from "../todolistComponent/TodoList";
 
 //this component was created just for routing purposes
 export const TodoListsContainer = React.memo(function TodoListsContainerComponent() {
-
     const dispatch = useDispatch()
     const todoLists = useSelector<AppRootStateType, TodoListEntityType[]>(state => state.todoLists)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
@@ -48,7 +47,6 @@ export const TodoListsContainer = React.memo(function TodoListsContainerComponen
             )
         }
     )
-
     return (
         <>
             <Grid container style={{padding: '20px', justifyContent: 'center'}}>

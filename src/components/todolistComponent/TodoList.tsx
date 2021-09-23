@@ -60,13 +60,13 @@ export const TodoList = React.memo(function TodoListWithHooksComponent(props: To
 
     //todoList filter callbacks
     const onChangeFilterAll = () => {
-        dispatch(changeTodoListFilterAC('all', id))
+        dispatch(changeTodoListFilterAC({filter: 'all', todoListId: id}))
     }
     const onChangeFilterAActive = () => {
-        dispatch(changeTodoListFilterAC('active', id))
+        dispatch(changeTodoListFilterAC({filter: 'active', todoListId: id}))
     }
     const onChangeFilterCompleted = () => {
-        dispatch(changeTodoListFilterAC('completed', id))
+        dispatch(changeTodoListFilterAC({filter: 'completed', todoListId: id}))
     }
 
     //add task
