@@ -40,8 +40,8 @@ export const Login = React.memo(function LoginComponent() {
 
             if (!values.password) {
                 errors.password = 'Field is required'
-            } else if(!/^(?=.{10,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/i.test(values.password)) { //at least 8 characters, 1 number, 1 upper and 1 lowercase
-                errors.password = 'at least 8 characters, 1 number, 1 uppercase character, 1 lowercase character, 1 special character'
+            } else if(values.password.length < 4) {
+                errors.password = 'password has to be at least 4 characters'
             }
             return errors
         },
